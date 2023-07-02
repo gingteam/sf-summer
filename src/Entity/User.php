@@ -14,29 +14,32 @@ class User implements UserInterface
     #[ORM\Column]
     private int $id;
 
-    #[ORM\Column(length: 21, unique: true)]
-    private string $googleId;
+    #[ORM\Column(unique: true)]
+    private string $telegramId;
 
     /** @var list<string> */
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     private string $name;
+
+    #[ORM\Column]
+    private string $photo;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getGoogleId(): string
+    public function getTelegramId(): string
     {
-        return $this->googleId;
+        return $this->telegramId;
     }
 
-    public function setGoogleId(string $googleId): static
+    public function setTelegramId(string $telegramId): static
     {
-        $this->googleId = $googleId;
+        $this->telegramId = $telegramId;
 
         return $this;
     }
@@ -48,7 +51,7 @@ class User implements UserInterface
      */
     public function getUserIdentifier(): string
     {
-        return $this->getGoogleId();
+        return $this->telegramId;
     }
 
     /**
@@ -92,6 +95,18 @@ class User implements UserInterface
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhoto(): string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

@@ -1,11 +1,10 @@
 {% extends "base.html.twig" %}
 {% block title %}Login{% endblock %}
 {% block body %}
-  <div id="uLogin"
-       data-ulogin="display=small;theme=classic;fields=first_name,last_name;providers=google;redirect_uri={{ absolute_url(path('app_login') ) }};mobilebuttons=0;">
-  </div>
-{% endblock %}
-{% block javascripts %}
-  {{ parent() }}
-  <script src="//ulogin.ru/js/ulogin.js"></script>
+  <script async
+          src="https://telegram.org/js/telegram-widget.js?22"
+          data-telegram-login="gingwife_bot"
+          data-size="large"
+          data-auth-url="{{ absolute_url(path('app_login_callback') ) }}"
+          data-request-access="write"></script>
 {% endblock %}

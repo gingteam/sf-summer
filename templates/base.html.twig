@@ -12,7 +12,10 @@
   </head>
   <body>
     <h1>Ging Game Production</h1>
-    {% if is_granted('ROLE_USER') %}<div>Hi, {{ app.user.name }}</div>{% endif %}
+    {% if is_granted('ROLE_USER') %}
+      <img src="{{ app.user.photo }}" alt="user_photo" width="48" height="48">
+      <div>Hi, {{ app.user.name }}</div>
+    {% endif %}
   </div>
   {% block body %}{% endblock %}
 </body>

@@ -8,7 +8,7 @@ security:
     app_user_provider:
       entity:
         class: App\Entity\User
-        property: googleId
+        property: telegramId
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,14 +16,14 @@ security:
     main:
       lazy: true
       provider: app_user_provider
-      custom_authenticator: App\Security\UloginAuthenticator
+      custom_authenticator: App\Security\TelegramAuthenticator
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
 
       # https://symfony.com/doc/current/security/impersonating_user.html
       # switch_user: true
       remember_me:
-        signature_properties: ['googleId']
+        signature_properties: ['telegramId']
         always_remember_me: true
       logout:
         path: app_logout

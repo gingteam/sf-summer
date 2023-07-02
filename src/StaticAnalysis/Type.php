@@ -2,9 +2,6 @@
 
 namespace App\StaticAnalysis;
 
-/**
- * @phpstan-type Ulogin array{uid:string,first_name:string,last_name:string}
- */
 class Type
 {
     private function __construct(private readonly mixed $type)
