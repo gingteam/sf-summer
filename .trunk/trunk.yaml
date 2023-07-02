@@ -1,0 +1,68 @@
+version: 0.1
+cli:
+  version: 1.11.1
+lint:
+  files:
+    - name: twig
+      extensions:
+        - twig
+  definitions:
+    - name: psalm
+      files:
+        - php
+      commands:
+        - output: sarif
+          success_codes: [0, 2]
+          run: ${workspace}/vendor/bin/psalm ${target} --output-format=sarif --no-progress
+          read_output_from: stdout
+          run_linter_from: workspace
+          disable_upstream: true
+    - name: phpstan
+      files:
+        - php
+      commands:
+        - output: regex
+          parse_regex: ((?P<path>.*):(?P<line>\d+):(?P<message>.*))
+          success_codes: [0, 1]
+          run: ${workspace}/vendor/bin/phpstan analyse ${target} --error-format=raw --no-progress
+          read_output_from: stdout
+          run_linter_from: workspace
+          disable_upstream: true
+          batch: true
+    - name: php-cs-fixer
+      files:
+        - php
+      commands:
+        - name: fmt
+          output: rewrite
+          formatter: true
+          run: php-cs-fixer fix ${target} --rules=@Symfony --quiet
+          success_codes: [0, 1]
+          in_place: true
+    - name: djlint
+      files:
+        - twig
+      commands:
+        - name: fmt
+          output: rewrite
+          formatter: true
+          run: djlint ${target} --reformat --quiet
+          success_codes: [0, 1]
+          in_place: true
+          batch: true
+    - name: node-eslint
+      files: [javascript, typescript]
+      commands:
+        - name: lint
+          output: eslint
+          run: npx eslint ${target} --format=json
+          success_codes: [0, 1]
+          read_output_from: stdout
+          run_linter_from: workspace
+          disable_upstream: true
+          batch: true
+  enabled:
+    - djlint
+    - node-eslint
+    - phpstan
+    - php-cs-fixer

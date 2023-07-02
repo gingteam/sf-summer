@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      {% block title %}Welcome!{% endblock %}
+    </title>
+    {% block stylesheets %}{% endblock %}
+    {{ encore_entry_link_tags("app") }}
+    {% block javascripts %}{% endblock %}
+    {{ encore_entry_script_tags("app") }}
+  </head>
+  <body>
+    <h1>Ging Game Production</h1>
+    {% if is_granted('ROLE_USER') %}<div>Hi, {{ app.user.name }}</div>{% endif %}
+  </div>
+  {% block body %}{% endblock %}
+</body>
+</html>

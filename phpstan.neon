@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+    scanDirectories:
+        - var/cache/dev/Symfony/Config
+includes:
+    - phpstan-baseline.neon
