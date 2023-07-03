@@ -21,7 +21,8 @@ lint:
       files:
         - php
       commands:
-        - output: regex
+        - name: lint
+          output: regex
           parse_regex: ((?P<path>.*):(?P<line>\d+):(?P<message>.*))
           success_codes: [0, 1]
           run: ${workspace}/vendor/bin/phpstan analyse ${target} --error-format=raw --no-progress
@@ -39,7 +40,8 @@ lint:
           run: php-cs-fixer fix ${target} --rules=@Symfony --quiet
           success_codes: [0, 1]
           in_place: true
-          batch: true
+          disable_upstream: true
+          run_when: [lsp]
     - name: twiglint
       files:
         - twig
@@ -50,7 +52,9 @@ lint:
           run: djlint ${target} --reformat --quiet
           success_codes: [0, 1]
           in_place: true
+          disable_upstream: true
           batch: true
+          run_when: [lsp]
     - name: node-eslint
       files: [javascript, typescript]
       commands:
@@ -62,6 +66,7 @@ lint:
           run_linter_from: workspace
           disable_upstream: true
           batch: true
+          run_when: [lsp]
   enabled:
     - node-eslint
     - twiglint

@@ -6,9 +6,9 @@ use App\Dto\TelegramUserDto;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\TelegramAuthenticator;
+use App\Security\TelegramCheckingAuthorization;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
@@ -26,23 +26,12 @@ class UserController extends AbstractController
     #[Route('/login/callback', name: 'app_login_callback')]
     public function callback(
         #[MapQueryString] TelegramUserDto $teleUser,
-        #[Autowire('%env(BOT_TOKEN)%')] string $bot_token,
         UserRepository $userRepo,
         UrlGeneratorInterface $urlGenerator,
         Security $security,
+        TelegramCheckingAuthorization $checker,
     ): RedirectResponse {
-        $data = [];
-        $vars = get_object_vars($teleUser);
-        foreach ($vars as $key => $value) {
-            $data[] = sprintf('%s=%s', $key, $value);
-        }
-        sort($data);
-        $data = implode("\n", $data);
-
-        $secret_key = hash('sha256', $bot_token, true);
-        $isValid = hash_hmac('sha256', $data, $secret_key) === $teleUser->getHash();
-
-        if (!$isValid) {
+        if (!$checker->isValid($teleUser)) {
             return new RedirectResponse($urlGenerator->generate('app_login'));
         }
 
@@ -57,9 +46,8 @@ class UserController extends AbstractController
             $userRepo->save($user, true);
         }
 
-        $security->login($user, TelegramAuthenticator::class);
-
-        return new RedirectResponse($urlGenerator->generate('app_home'));
+        // @phpstan-ignore-next-line
+        return $security->login($user, TelegramAuthenticator::class);
     }
 
     /** @return void */
