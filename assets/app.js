@@ -7,6 +7,3 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 // import './styles/app.css';
-import '@primer/css/utilities/index.scss'
-import '@primer/css/core/index.scss'
-import '@primer/css/header/index.scss'

@@ -1,3 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block title %}Hello HomeController!{% endblock %}
-{% block body %}Here is homepage.{% endblock %}
+{% block body %}
+<h1>Testing Kaboom.js</h1>
+  <center>
+    <canvas id="game"></canvas>
+  </center>
+{% endblock %}
+{% block javascripts %}{{ encore_entry_script_tags("game") }}{% endblock %}

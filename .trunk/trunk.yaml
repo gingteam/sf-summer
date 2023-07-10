@@ -58,17 +58,16 @@ lint:
     - name: node-eslint
       files: [javascript, typescript]
       commands:
-        - name: lint
-          output: eslint
-          run: npx eslint ${target} --format=json
+        - name: fmt
+          output: rewrite
+          formatter: true
+          run: npx eslint --fix ${target} --quiet
           success_codes: [0, 1]
-          read_output_from: stdout
-          run_linter_from: workspace
+          in_place: true
           disable_upstream: true
           batch: true
-          run_when: [lsp]
   enabled:
-    - node-eslint
+    # - node-eslint
     - twiglint
     - phpstan
     - php-cs-fixer

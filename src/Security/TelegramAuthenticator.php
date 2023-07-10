@@ -38,8 +38,8 @@ class TelegramAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): Passport
     {
         try {
-            /** @var TelegramUserDto */
             $teleUser = $this->objectNormalizer->denormalize($request->query->all(), TelegramUserDto::class);
+            assert($teleUser instanceof TelegramUserDto);
         } catch (\Throwable $e) {
             throw new AuthenticationException($e->getMessage());
         }

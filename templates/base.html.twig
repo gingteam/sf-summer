@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-color-mode="dark" data-dark-theme="dark">
+<html data-color-mode="light" data-light-theme="light">
   <head>
     <meta charset="UTF-8">
     <title>
@@ -11,24 +11,10 @@
     {{ encore_entry_script_tags("app") }}
   </head>
   <body>
-    <div class="Header">
-      <div class="Header-item">
-        <a href="#" class="Header-link f4 d-flex flex-items-center">
-          <span>Demo</span>
-        </a>
-      </div>
-      <div class="Header-item">
-        <input type="search" class="form-control Header-input" />
-      </div>
-      <div class="Header-item Header-item--full">Menu</div>
-      {% if is_granted('ROLE_USER') %}
-        <div class="Header-item mr-0">
-          <img class="avatar" src="{{ app.user.photo }}" alt="user_photo" width="32">
-        </div>
-      {% endif %}
-    </div>
-    <h1>Ging Game Production</h1>
-  </div>
-  {% block body %}{% endblock %}
-</body>
+    <header>
+      <h1>GingSite</h1>
+      {% if is_granted('ROLE_USER') %}<h4>{{ app.user.name }}</h4>{% endif %}
+    </header>
+    {% block body %}{% endblock %}
+  </body>
 </html>
