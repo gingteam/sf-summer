@@ -139,7 +139,7 @@ function townieupdate (): TownieUpateComp {
         if (this.state === 'go' && this.path.length > 0) {
           const current = this.getPosVec2(this.current)
           const { x, y } = current
-          const pos = convertToIsometric(x, y)
+          const pos = isomap[x][y]
 
           if (this.in(pos)) {
             if (this.current < this.path.length - 1) {
@@ -156,8 +156,7 @@ function townieupdate (): TownieUpateComp {
             }
           }
 
-          const move = convertToIsometric(x, y)
-          this.moveTo(move, 50)
+          this.moveTo(pos, 50)
         }
       })
     }
